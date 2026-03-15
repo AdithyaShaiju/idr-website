@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Institute of Digital Risk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:   #FF6B00;
+      --orange-d: #CC5500;
+      --orange-l: #FF9240;
+      --black:    #0D0D0D;
+      --grey-dk:  #1A1A1A;
+      --grey-md:  #2C2C2C;
+      --grey-lt:  #9A9A9A;
+      --off-white:#F5F4F0;
+      --white:    #FFFFFF;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --max-w:    1140px;
+      --nav-h:    64px;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img, svg { display: block; }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      background: rgba(13,13,13,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,107,0,0.15);
+      transition: background 0.3s;
+    }
+
+    nav .container {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .nav-logo svg { width: 36px; height: 36px; }
+
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .nav-logo-text .abbr {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 2px;
+      color: var(--white);
+    }
+
+    .nav-logo-text .full {
+      font-family: var(--font-head);
+      font-size: 7.5px;
+      letter-spacing: 2px;
+      color: var(--grey-lt);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-head);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--grey-lt);
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1.5px;
+      background: var(--orange);
+      transition: width 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      padding: 9px 20px;
+      background: var(--orange);
+      color: var(--white) !important;
+      border-radius: 3px;
+      font-family: var(--font-head);
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s !important;
+    }
+
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--orange-d) !important; transform: translateY(-1px); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--white);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      background: var(--grey-dk);
+      position: fixed;
+      top: var(--nav-h);
+      left: 0; right: 0;
+      z-index: 99;
+      border-bottom: 1px solid rgba(255,107,0,0.2);
+      transform: translateY(-100%);
+      transition: transform 0.3s;
+    }
+
+    .mobile-menu.open { transform: translateY(0); }
+
+    .mobile-menu a {
+      display: block;
+      padding: 16px 24px;
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--grey-lt);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--white); background: rgba(255,107,0,0.08); }
+
+    /* ===== HERO ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: var(--nav-h);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 80% 50%, rgba(255,107,0,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(255,107,0,0.06) 0%, transparent 60%),
+        var(--black);
+    }
+
+    /* Animated grid lines */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,107,0,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,107,0,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 80% 50%, black 0%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 80% 50%, black 0%, transparent 70%);
+    }
+
+    /* Large decorative cube */
+    .hero-cube {
+      position: absolute;
+      right: -40px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 480px;
+      height: 480px;
+      opacity: 0.18;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(-50%) rotate(0deg); }
+      50%       { transform: translateY(calc(-50% - 16px)) rotate(3deg); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      font-family: var(--font-head);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px; height: 1.5px;
+      background: var(--orange);
+    }
+
+    h1 {
+      font-family: var(--font-head);
+      font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -1px;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--orange);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.65);
+      max-width: 520px;
+      margin-bottom: 44px;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      font-family: var(--font-head);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: transform 0.2s, background 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-d);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255,107,0,0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.25);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      transform: translateY(-2px);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.4;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    .hero-scroll span {
+      font-family: var(--font-head);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .scroll-arrow {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, transparent, var(--white));
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ===== SECTION BASE ===== */
+    section { padding: 100px 0; }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      font-family: var(--font-head);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px; height: 1.5px;
+      background: var(--orange);
+    }
+
+    h2 {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    h2 em { font-style: normal; color: var(--orange); }
+
+    .section-intro {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      max-width: 580px;
+      line-height: 1.75;
+    }
+
+    /* ===== ABOUT ===== */
+    #about { background: var(--black); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-top: 60px;
+    }
+
+    .about-text p {
+      font-size: 1.02rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+
+    .about-text p:last-child { margin-bottom: 0; }
+
+    .about-stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .stat-card {
+      padding: 28px 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,107,0,0.15);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--orange);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.3s;
+    }
+
+    .stat-card:hover { 
+      background: rgba(255,107,0,0.05); 
+      border-color: rgba(255,107,0,0.35); 
+    }
+    .stat-card:hover::before { transform: scaleY(1); }
+
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--orange);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* ===== PIPELINE ===== */
+    #pipeline { background: var(--grey-dk); }
+
+    .pipeline-track {
+      display: flex;
+      align-items: stretch;
+      margin-top: 60px;
+      position: relative;
+    }
+
+    .pipeline-track::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 0; right: 0;
+      height: 1px;
+      background: rgba(255,107,0,0.2);
+      transform: translateY(-50%);
+    }
+
+    .pipeline-step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-num {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: var(--black);
+      border: 2px solid var(--orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: var(--orange);
+      margin-bottom: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .pipeline-step:hover .step-num {
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    .step-word {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .step-desc {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.5;
+      max-width: 140px;
+    }
+
+    /* Arrow between steps */
+    .pipeline-arrow {
+      align-self: flex-start;
+      padding-top: 14px;
+      color: var(--orange);
+      opacity: 0.5;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    /* ===== SERVICE PILLARS ===== */
+    #services { background: var(--black); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+
+    .service-card {
+      padding: 40px 32px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    }
+
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--orange);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,107,0,0.25);
+      background: rgba(255,107,0,0.04);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+
+    .service-card:hover::after { transform: scaleX(1); }
+
+    .card-icon {
+      width: 48px; height: 48px;
+      background: rgba(255,107,0,0.1);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .card-icon svg { width: 24px; height: 24px; }
+
+    .card-tag {
+      font-family: var(--font-head);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      font-family: var(--font-head);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+
+    .card-body {
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.75;
+    }
+
+    .card-list {
+      list-style: none;
+      margin-top: 16px;
+    }
+
+    .card-list li {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      padding: 5px 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .card-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--orange);
+    }
+
+    /* ===== COMMUNITY ===== */
+    #community { background: var(--grey-dk); }
+
+    .community-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-top: 60px;
+    }
+
+    .community-desc {
+      font-size: 1.02rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+
+    .sector-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .tag {
+      padding: 7px 14px;
+      border: 1px solid rgba(255,107,0,0.3);
+      border-radius: 2px;
+      font-family: var(--font-head);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .tag:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      background: rgba(255,107,0,0.05);
+    }
+
+    .audience-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .audience-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 22px 24px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .audience-card:hover {
+      border-color: rgba(255,107,0,0.2);
+      background: rgba(255,107,0,0.03);
+    }
+
+    .aud-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .aud-title {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .aud-desc {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.5;
+    }
+
+    /* ===== CONTACT ===== */
+    #contact { background: var(--black); }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: flex-start;
+      margin-top: 60px;
+    }
+
+    .contact-info p {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .contact-detail .icon {
+      width: 36px; height: 36px;
+      background: rgba(255,107,0,0.1);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-detail a {
+      color: var(--orange);
+      transition: opacity 0.2s;
+    }
+    .contact-detail a:hover { opacity: 0.7; }
+
+    /* Form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .form-group label {
+      font-family: var(--font-head);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 3px;
+      padding: 13px 16px;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      width: 100%;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--orange);
+      background: rgba(255,107,0,0.04);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    .form-group select option { background: var(--grey-dk); }
+
+    .form-submit {
+      margin-top: 4px;
+    }
+
+    .form-note {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.3);
+      margin-top: 10px;
+    }
+
+    /* Success */
+    .form-success {
+      display: none;
+      padding: 20px 24px;
+      background: rgba(255,107,0,0.1);
+      border: 1px solid rgba(255,107,0,0.3);
+      border-radius: 4px;
+      color: var(--orange);
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--grey-dk);
+      border-top: 1px solid rgba(255,107,0,0.1);
+      padding: 48px 0 32px;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.7;
+      margin-top: 16px;
+      max-width: 260px;
+    }
+
+    .footer-col h4 {
+      font-family: var(--font-head);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 16px;
+    }
+
+    .footer-col ul { list-style: none; }
+
+    .footer-col ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-col ul li a {
+      font-size: 0.87rem;
+      color: rgba(255,255,255,0.45);
+      transition: color 0.2s;
+    }
+
+    .footer-col ul li a:hover { color: var(--orange); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.25);
+    }
+
+    .footer-bottom a { color: rgba(255,107,0,0.6); transition: color 0.2s; }
+    .footer-bottom a:hover { color: var(--orange); }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
+
+      .about-grid,
+      .community-inner,
+      .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+
+      .services-grid { grid-template-columns: 1fr; }
+
+      .pipeline-track {
+        flex-direction: column;
+        gap: 0;
+      }
+      .pipeline-track::before { display: none; }
+      .pipeline-step {
+        flex-direction: row;
+        text-align: left;
+        padding: 20px 0;
+        border-bottom: 1px solid rgba(255,107,0,0.1);
+        gap: 24px;
+      }
+      .pipeline-step:last-child { border-bottom: none; }
+      .step-num { flex-shrink: 0; margin-bottom: 0; }
+      .step-desc { max-width: none; }
+      .pipeline-arrow { display: none; }
+
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+
+      .about-stat-grid { grid-template-columns: 1fr 1fr; }
+
+      .hero-cube { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 70px 0; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+      .hero-actions { flex-direction: column; }
+      .btn { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAV ===== -->
+  <nav>
+    <div class="container">
+      <a href="#hero" class="nav-logo" aria-label="IDR Home">
+        <!-- Inline cube icon -->
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <polygon points="40,70 12,54 40,38 68,54" fill="#FF6B00"/>
+          <polygon points="40,38 68,54 68,22 40,6" fill="#CC5500"/>
+          <polygon points="40,38 12,54 12,22 40,6" fill="#FF8C33"/>
+          <polygon points="40,14 62,26 62,50 40,62" fill="none" stroke="#FF6B00" stroke-width="2" opacity="0.45"/>
+          <circle cx="40" cy="38" r="5" fill="white"/>
+          <line x1="40" y1="38" x2="40" y2="6" stroke="white" stroke-width="1.5" opacity="0.3"/>
+          <line x1="40" y1="38" x2="12" y2="54" stroke="white" stroke-width="1.5" opacity="0.3"/>
+          <line x1="40" y1="38" x2="68" y2="54" stroke="white" stroke-width="1.5" opacity="0.3"/>
+        </svg>
+        <div class="nav-logo-text">
+          <span class="abbr">IDR</span>
+          <span class="full">Institute of Digital Risk</span>
+        </div>
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#community">Community</a></li>
+        <li><a href="#contact" class="nav-cta">Register Interest</a></li>
+      </ul>
+
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false" id="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
+    <a href="#about"      onclick="closeMobile()">About</a>
+    <a href="#services"   onclick="closeMobile()">Services</a>
+    <a href="#community"  onclick="closeMobile()">Community</a>
+    <a href="#contact"    onclick="closeMobile()">Register Interest</a>
+  </nav>
+
+  <!-- ===== MAIN ===== -->
+  <main>
+
+    <!-- HERO -->
+    <section id="hero" aria-labelledby="hero-h1">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-grid" aria-hidden="true"></div>
+
+      <!-- Decorative large cube -->
+      <svg class="hero-cube" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon points="100,10 180,55 180,145 100,190" fill="#FF6B00"/>
+        <polygon points="100,10 20,55 20,145 100,190" fill="#CC5500"/>
+        <polygon points="100,100 180,55 180,145 100,190" fill="#FF8C33" opacity="0.5"/>
+        <circle cx="100" cy="100" r="8" fill="white"/>
+        <line x1="100" y1="100" x2="100" y2="10" stroke="white" stroke-width="1" opacity="0.3"/>
+        <line x1="100" y1="100" x2="20" y2="145" stroke="white" stroke-width="1" opacity="0.3"/>
+        <line x1="100" y1="100" x2="180" y2="145" stroke="white" stroke-width="1" opacity="0.3"/>
+      </svg>
+
+      <div class="container">
+        <div class="hero-content">
+          <p class="hero-eyebrow">Industry-Led Training &amp; Deployment</p>
+          <h1 id="hero-h1">Advancing the<br/>Future of <em>Digital Risk</em></h1>
+          <p class="hero-sub">IDR trains and deploys the next generation of digital risk practitioners — combining academic rigour with live industry projects to prepare professionals for high-stakes, regulated environments.</p>
+          <div class="hero-actions">
+            <a href="#services" class="btn btn-primary">Explore Programs ↗</a>
+            <a href="#contact"  class="btn btn-outline">Hire Talent</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-scroll" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" aria-labelledby="about-heading">
+      <div class="container">
+        <p class="section-label">Who We Are</p>
+        <h2 id="about-heading">Built at the <em>intersection</em><br/>of academia and practice</h2>
+
+        <div class="about-grid">
+          <div class="about-text reveal">
+            <p>The Institute of Digital Risk is an industry-led training and deployment institute dedicated to building the specialist talent that regulated, high-consequence sectors urgently need. We bring together the analytical depth of leading UK university partners with the operational experience of practitioners who have navigated real-world cyber, digital and technology risk environments.</p>
+            <p>Our model moves talent from the classroom directly into consequential roles. Trainees work on live projects before entering the workforce — giving employers confidence and giving practitioners the applied credentials that accelerate their careers.</p>
+          </div>
+          <div class="about-stat-grid reveal">
+            <div class="stat-card">
+              <div class="stat-num">3</div>
+              <div class="stat-label">Service Pillars</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">UK</div>
+              <div class="stat-label">University Partnership</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">AI+</div>
+              <div class="stat-label">Emerging Risk Focus</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">360°</div>
+              <div class="stat-label">Train–Deploy Pipeline</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PIPELINE -->
+    <section id="pipeline" aria-labelledby="pipeline-heading">
+      <div class="container">
+        <p class="section-label">Our Model</p>
+        <h2 id="pipeline-heading">The IDR <em>Pipeline</em></h2>
+        <p class="section-intro">A structured pathway from education to deployment — designed to serve both practitioners and the organisations that rely on them.</p>
+
+        <div class="pipeline-track reveal">
+          <div class="pipeline-step">
+            <div class="step-num">01</div>
+            <div>
+              <div class="step-word">Train</div>
+              <div class="step-desc">Rigorous bootcamps &amp; accredited programmes grounded in real-world risk</div>
+            </div>
+          </div>
+          <div class="pipeline-arrow" aria-hidden="true">→</div>
+          <div class="pipeline-step">
+            <div class="step-num">02</div>
+            <div>
+              <div class="step-word">Hire</div>
+              <div class="step-desc">Pre-vetted talent placed directly into regulated sector roles</div>
+            </div>
+          </div>
+          <div class="pipeline-arrow" aria-hidden="true">→</div>
+          <div class="pipeline-step">
+            <div class="step-num">03</div>
+            <div>
+              <div class="step-word">Innovate</div>
+              <div class="step-desc">Co-develop new risk models, IP &amp; AI governance frameworks</div>
+            </div>
+          </div>
+          <div class="pipeline-arrow" aria-hidden="true">→</div>
+          <div class="pipeline-step">
+            <div class="step-num">04</div>
+            <div>
+              <div class="step-word">Deploy</div>
+              <div class="step-desc">Embed practitioners in critical infrastructure &amp; financial services</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" aria-labelledby="services-heading">
+      <div class="container">
+        <p class="section-label">Service Pillars</p>
+        <h2 id="services-heading">Three ways we <em>deliver</em></h2>
+        <p class="section-intro">From foundational education to cutting-edge advisory, IDR's three pillars work together to close the digital risk talent gap.</p>
+
+        <div class="services-grid">
+          <!-- ACADEMY -->
+          <article class="service-card reveal">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <p class="card-tag">Pillar 01</p>
+            <h3>Academy</h3>
+            <p class="card-body">Structured training programmes and intensive bootcamps for students, graduates and working professionals looking to build or advance digital and cyber risk capabilities.</p>
+            <ul class="card-list">
+              <li>Digital &amp; Cyber Risk Bootcamps</li>
+              <li>AI Risk &amp; Governance Pathways</li>
+              <li>Continuing Professional Development</li>
+              <li>University-accredited modules</li>
+            </ul>
+          </article>
+
+          <!-- INNOVATION -->
+          <article class="service-card reveal">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+              </svg>
+            </div>
+            <p class="card-tag">Pillar 02</p>
+            <h3>Innovation &amp; Incubation</h3>
+            <p class="card-body">Working with academic and industry partners to develop proprietary risk models, AI governance tools and emerging frameworks that keep organisations ahead of the threat landscape.</p>
+            <ul class="card-list">
+              <li>IP development &amp; risk modelling</li>
+              <li>AI risk &amp; safety research</li>
+              <li>Future risk foresight projects</li>
+              <li>Industry-academic co-creation</li>
+            </ul>
+          </article>
+
+          <!-- ADVISORY -->
+          <article class="service-card reveal">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                <path d="M8 21h8M12 17v4"/>
+              </svg>
+            </div>
+            <p class="card-tag">Pillar 03</p>
+            <h3>Advisory Services</h3>
+            <p class="card-body">Hands-on advisory support helping organisations design, implement and mature their digital risk frameworks in line with leading international standards and regulatory obligations.</p>
+            <ul class="card-list">
+              <li>NIST CSF implementation</li>
+              <li>ISO 27001 &amp; NIS2 alignment</li>
+              <li>Organisational risk maturity</li>
+              <li>Board-level risk communication</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMMUNITY -->
+    <section id="community" aria-labelledby="community-heading">
+      <div class="container">
+        <p class="section-label">Community</p>
+        <h2 id="community-heading">Who we <em>serve</em></h2>
+
+        <div class="community-inner">
+          <div class="reveal">
+            <p class="community-desc">IDR is built for a growing community of professionals who understand that digital and cyber risk is one of the defining challenges of the next decade — and who want to be equipped to face it.</p>
+            <p class="community-desc">From students entering the field for the first time to seasoned practitioners seeking cutting-edge upskilling, our programmes are designed to meet people at every stage of their risk career.</p>
+            <div class="sector-tags" role="list" aria-label="Sectors served">
+              <span class="tag" role="listitem">Financial Services</span>
+              <span class="tag" role="listitem">Critical Infrastructure</span>
+              <span class="tag" role="listitem">Energy &amp; Utilities</span>
+              <span class="tag" role="listitem">Healthcare</span>
+              <span class="tag" role="listitem">Defence &amp; National Security</span>
+              <span class="tag" role="listitem">Technology</span>
+              <span class="tag" role="listitem">Legal &amp; Professional Services</span>
+            </div>
+          </div>
+
+          <div class="audience-cards reveal">
+            <div class="audience-card">
+              <div class="aud-icon" aria-hidden="true">🎓</div>
+              <div>
+                <div class="aud-title">Students &amp; Graduates</div>
+                <div class="aud-desc">Entering a high-demand field with employer-ready credentials and live project experience.</div>
+              </div>
+            </div>
+            <div class="audience-card">
+              <div class="aud-icon" aria-hidden="true">📈</div>
+              <div>
+                <div class="aud-title">Early-Career Professionals</div>
+                <div class="aud-desc">Building specialism in digital, cyber and AI risk to accelerate career progression in regulated sectors.</div>
+              </div>
+            </div>
+            <div class="audience-card">
+              <div class="aud-icon" aria-hidden="true">🔒</div>
+              <div>
+                <div class="aud-title">Risk &amp; Cyber Practitioners</div>
+                <div class="aud-desc">Upskilling in emerging risk domains including AI governance, NIS2 compliance and advanced threat modelling.</div>
+              </div>
+            </div>
+            <div class="audience-card">
+              <div class="aud-icon" aria-hidden="true">🏛️</div>
+              <div>
+                <div class="aud-title">Organisations &amp; Employers</div>
+                <div class="aud-desc">Accessing a pipeline of verified talent and bespoke advisory support tailored to your regulatory context.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" aria-labelledby="contact-heading">
+      <div class="container">
+        <p class="section-label">Get Involved</p>
+        <h2 id="contact-heading">Register <em>Interest</em></h2>
+
+        <div class="contact-inner">
+          <div class="contact-info reveal">
+            <p>Whether you're looking to train, hire, collaborate or simply learn more about what IDR does — we'd like to hear from you. Fill in the form and a member of our team will be in touch within two business days.</p>
+
+            <div class="contact-detail">
+              <div class="icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <span>Email: <a href="mailto:hello@idr.ac.uk">hello@idr.ac.uk</a></span>
+            </div>
+
+            <div class="contact-detail">
+              <div class="icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <span>London, United Kingdom</span>
+            </div>
+
+            <div class="contact-detail">
+              <div class="icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <span>Response within 2 business days</span>
+            </div>
+          </div>
+
+          <div class="reveal">
+            <form class="contact-form" id="contactForm" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="fname">First Name</label>
+                  <input type="text" id="fname" name="fname" placeholder="Jane" required autocomplete="given-name"/>
+                </div>
+                <div class="form-group">
+                  <label for="lname">Last Name</label>
+                  <input type="text" id="lname" name="lname" placeholder="Smith" required autocomplete="family-name"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="jane@organisation.com" required autocomplete="email"/>
+              </div>
+              <div class="form-group">
+                <label for="interest">Area of Interest</label>
+                <select id="interest" name="interest">
+                  <option value="">Select an option…</option>
+                  <option>Academy / Training Programmes</option>
+                  <option>Hiring Talent</option>
+                  <option>Innovation &amp; Research Collaboration</option>
+                  <option>Advisory Services</option>
+                  <option>Partnership Enquiry</option>
+                  <option>General Enquiry</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Tell us a little about your organisation and what you're looking for…"></textarea>
+              </div>
+              <div class="form-submit">
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Submit Interest →</button>
+              </div>
+              <p class="form-note">By submitting this form you agree to IDR contacting you about relevant programmes and services. You may opt out at any time.</p>
+            </form>
+            <div class="form-success" id="formSuccess" role="alert">
+              ✓ &nbsp;Thank you — we'll be in touch within two business days.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <svg viewBox="0 0 80 80" width="36" height="36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <polygon points="40,70 12,54 40,38 68,54" fill="#FF6B00"/>
+              <polygon points="40,38 68,54 68,22 40,6" fill="#CC5500"/>
+              <polygon points="40,38 12,54 12,22 40,6" fill="#FF8C33"/>
+              <circle cx="40" cy="38" r="5" fill="white"/>
+            </svg>
+            <div class="nav-logo-text">
+              <span class="abbr">IDR</span>
+              <span class="full">Institute of Digital Risk</span>
+            </div>
+          </div>
+          <p>Training and deploying the next generation of digital, cyber and AI risk professionals for regulated and high-consequence environments.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Programmes</h4>
+          <ul>
+            <li><a href="#services">Academy Bootcamps</a></li>
+            <li><a href="#services">AI Risk &amp; Governance</a></li>
+            <li><a href="#services">CPD Pathways</a></li>
+            <li><a href="#services">ISO 27001 / NIS2</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Organisation</h4>
+          <ul>
+            <li><a href="#about">About IDR</a></li>
+            <li><a href="#community">Community</a></li>
+            <li><a href="#pipeline">Our Model</a></li>
+            <li><a href="#contact">Partner with Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 Institute of Digital Risk. All rights reserved.</span>
+        <span>Designed &amp; built for <a href="#">idr.ac.uk</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== JS ===== -->
+  <script>
+    // Hamburger toggle
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+
+    function closeMobile() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          // Stagger siblings
+          const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+          siblings.forEach((el, idx) => {
+            setTimeout(() => el.classList.add('visible'), idx * 100);
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // Sticky nav background
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.style.background = window.scrollY > 40
+        ? 'rgba(13,13,13,0.98)'
+        : 'rgba(13,13,13,0.92)';
+    });
+
+    // Form submit
+    const form = document.getElementById('contactForm');
+    const success = document.getElementById('formSuccess');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form.style.display = 'none';
+      success.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
